@@ -16,11 +16,24 @@ connect.then((db) => {
     .then((dish) => {
         console.log(dish);
 
-        return Dishes.find({});
+        return Dishes.findByIdAndUpdate(dish._id, {
+            $set: {description: "Updated test"}
+        },{
+            new: true
+        }).exec();
     })
-    .then((dishes) => {
-        console.log(dishes);
+    .then((dish) => {
+        console.log(dish);
 
+        dish.comments.push({
+            rating: 5,
+            comment: 'I\'m getting a good feeling',
+            author: "Thang Nguyen"
+        });
+        return dish.save();
+    })
+    .then((dish) => {
+        console.log(dish)
         return Dishes.remove({});
     })
     .then(() => {
